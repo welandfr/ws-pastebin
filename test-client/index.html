@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ws-pastebin-client</title>
+</head>
+<body>
+    <input id="in" type="text" placeholder="Paste here">
+    <p id="out">...</p>
+
+    <script>
+        WS_TOKEN = localStorage.getItem('ws_token') || 'secret-token';
+        console.log(WS_TOKEN);
+
+        // Create a WebSocket connection
+        const socket = new WebSocket(`ws://localhost:5000?token=${WS_TOKEN}`);
+
+        // Connection established event
+        socket.onopen = function (event) {
+            console.log('Connected to WebSocket server');
+        };
+
+        // Message received event
+        socket.onmessage = function (event) {
+
+            const data = JSON.parse(event.data);
+            document.querySelector('#out').innerHTML = data.val;
+            console.log(data);
+
+        };
+
+        // Connection closed event
+        socket.onclose = function (event) {
+            console.log('Connection closed');
+        };
+
+        document.querySelector('#in').addEventListener('input', (evt) => {
+            const message = { val: evt.target.value };
+
+            socket.send(JSON.stringify(message));
+        });
+    </script>
+
+</body>
+</html>
