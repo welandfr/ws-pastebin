@@ -5,6 +5,8 @@ const PORT = process.env.PORT || 5000
 const wss = new WebSocket.Server({ port: PORT })
 const clients = new Set()
 
+console.log(`Running WebSocket on port ${PORT}`)
+
 // Send pasted value to all clients except specified
 function sendToOtherClients(data, clientId) {
     sentInfo = []
@@ -30,7 +32,7 @@ wss.on('connection', (ws, req) => {
         ws.close()
     } 
 
-    ws.clientId = req.headers['sec-websocket-key']
+    ws.clientId = req.headers['sec-websocket-key'] // Some random str from handshake, I'm using it as an ID (?)
     ws.clientInfo = { 
         clientId: clientId, 
         ip: req.socket.remoteAddress, 
