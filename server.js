@@ -34,7 +34,7 @@ wss.on('connection', (ws, req) => {
 
     ws.clientId = req.headers['sec-websocket-key'] // Some random str from handshake, I'm using it as an ID (?)
     ws.clientInfo = { 
-        clientId: clientId, 
+        clientId: ws.clientId, 
         ip: req.socket.remoteAddress, 
         agent: req.headers['user-agent'], 
         connTime: new Date() 
