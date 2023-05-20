@@ -15,7 +15,7 @@
         console.log(WS_TOKEN);
 
         // Create a WebSocket connection
-        const socket = new WebSocket(`wss://pastebin-ws-fw-teaching.rahtiapp.fi/?token=${WS_TOKEN}`);
+        const socket = new WebSocket(`wss://localhost:5000?token=${WS_TOKEN}`);
 
         // Connection established event
         socket.onopen = function (event) {
